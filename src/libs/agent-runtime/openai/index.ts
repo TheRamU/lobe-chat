@@ -39,9 +39,7 @@ export class LobeOpenAI implements LobeRuntimeAI {
 
   baseURL: string;
 
-  async fetchWithTimeout(input: string, init: any = {}): Promise<Response> {
-    const timeout: number = 60000;
-
+  async fetchWithTimeout(input: string, init: any = {}, timeout: number): Promise<Response> {
     const controller = new AbortController();
     const signal = controller.signal;
     init.signal = signal;
@@ -70,7 +68,7 @@ export class LobeOpenAI implements LobeRuntimeAI {
           'Content-Type': 'application/json'
         },
         method: 'POST',
-      });
+      }, 60_000);
       
       // const response = await this.client.chat.completions.create(
       //   {
