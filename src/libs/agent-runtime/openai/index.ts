@@ -45,15 +45,45 @@ export class LobeOpenAI implements LobeRuntimeAI {
 
     // ============  2. send api   ============ //
 
+    async function fetchWithTimeout(input: RequestInfo, init: RequestInit = {}, timeout: number = 5000): Promise<Response> {
+      const controller = new AbortController();
+      const signal = controller.signal;
+      init.signal = signal;
+      const timeoutId = setTimeout(() => controller.abort(), timeout);
+      try {
+          const response = await fetch(input, init);
+          clearTimeout(timeoutId);
+          return response;
+      } catch (error) {
+          // if (error.name === 'AbortError') {
+          //     throw new Error('Request timed out');
+          // }
+          throw error;
+      }
+    }
+
     try {
-      const response = await this.client.chat.completions.create(
-        {
+      const response = await fetchWithTimeout(this.client.baseURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.client.apiKey}`,
+        },
+        body: JSON.stringify({
           messages,
           ...params,
           stream: true,
-        } as unknown as OpenAI.ChatCompletionCreateParamsStreaming,
-        { headers: { Accept: '*/*' } },
-      );
+        }),
+      }, 60000);
+      
+      // const response = await this.client.chat.completions.create(
+      //   {
+      //     messages,
+      //     ...params,
+      //     stream: true,
+      //   } as unknown as OpenAI.ChatCompletionCreateParamsStreaming,
+      //   { headers: { Accept: '*/*' } },
+      // );
 
       const stream = OpenAIStream(response);
 
