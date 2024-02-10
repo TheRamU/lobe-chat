@@ -39,17 +39,6 @@ export class LobeOpenAI implements LobeRuntimeAI {
 
   baseURL: string;
 
-  async fetchWithTimeout(input: string, init: any = {}, timeout: number): Promise<Response> {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    init.signal = signal;
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-    const response = await fetch(input, init);
-    clearTimeout(timeoutId);
-    return response;
-  }
-
   async chat(payload: ChatStreamPayload) {
     // ============  1. preprocess messages   ============ //
     const { messages, ...params } = payload;
@@ -57,18 +46,14 @@ export class LobeOpenAI implements LobeRuntimeAI {
     // ============  2. send api   ============ //
 
     try {
-      const response = await this.fetchWithTimeout(`${this.client.baseURL}/chat/completions`, {
-        body: JSON.stringify({
+      const response = await this.client.chat.completions.create(
+        {
           messages,
           ...params,
           stream: true,
-        }),
-        headers: {
-          'Authorization': `Bearer ${this.client.apiKey}`,
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-      }, 60_000);
+        } as unknown as OpenAI.ChatCompletionCreateParamsStreaming,
+        { headers: { Accept: '*/*' } },
+      );
 
       const stream = OpenAIStream(response);
 
