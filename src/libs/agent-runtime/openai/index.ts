@@ -45,7 +45,7 @@ export class LobeOpenAI implements LobeRuntimeAI {
 
     // ============  2. send api   ============ //
 
-    async function fetchWithTimeout(input: RequestInfo, init: RequestInit = {}, timeout: number = 5000): Promise<Response> {
+    async function fetchWithTimeout(input: string, init: RequestInit = {}, timeout: number = 5000): Promise<Response> {
       const controller = new AbortController();
       const signal = controller.signal;
       init.signal = signal;
