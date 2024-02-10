@@ -57,7 +57,7 @@ export class LobeOpenAI implements LobeRuntimeAI {
     // ============  2. send api   ============ //
 
     try {
-      const response = await fetchWithTimeout(`${client.baseURL}/chat/completions`, {
+      const response = await this.fetchWithTimeout(`${this.client.baseURL}/chat/completions`, {
         body: JSON.stringify({
           messages,
           ...params,
