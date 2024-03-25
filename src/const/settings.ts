@@ -6,6 +6,7 @@ import {
   GlobalDefaultAgent,
   GlobalLLMConfig,
   GlobalSettings,
+  GlobalSyncSettings,
   GlobalTTSConfig,
 } from '@/types/settings';
 
@@ -46,6 +47,10 @@ export const DEFAULT_AGENT_CONFIG: LobeAgentConfig = {
 };
 
 export const DEFAULT_LLM_CONFIG: GlobalLLMConfig = {
+  anthropic: {
+    apiKey: '',
+    enabled: false,
+  },
   azure: {
     apiKey: '',
     deployments: '',
@@ -62,6 +67,14 @@ export const DEFAULT_LLM_CONFIG: GlobalLLMConfig = {
     apiKey: '',
     enabled: false,
   },
+  groq: {
+    apiKey: '',
+    enabled: false,
+  },
+  mistral: {
+    apiKey: '',
+    enabled: false,
+  },
   moonshot: {
     apiKey: '',
     enabled: false,
@@ -74,6 +87,14 @@ export const DEFAULT_LLM_CONFIG: GlobalLLMConfig = {
     OPENAI_API_KEY: '',
     enabled: true,
     models: [],
+  },
+  openrouter: {
+    apiKey: '',
+    enabled: false,
+  },
+  perplexity: {
+    apiKey: '',
+    enabled: false,
   },
   zhipu: {
     apiKey: '',
@@ -101,9 +122,14 @@ export const DEFAULT_TOOL_CONFIG = {
   },
 };
 
+const DEFAULT_SYNC_CONFIG: GlobalSyncSettings = {
+  webrtc: { enabled: false },
+};
+
 export const DEFAULT_SETTINGS: GlobalSettings = {
   defaultAgent: DEFAULT_AGENT,
   languageModel: DEFAULT_LLM_CONFIG,
+  sync: DEFAULT_SYNC_CONFIG,
   tool: DEFAULT_TOOL_CONFIG,
   tts: DEFAULT_TTS_CONFIG,
   ...DEFAULT_BASE_SETTINGS,

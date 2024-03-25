@@ -1,4 +1,14 @@
 {
+  "about": {
+    "title": "حول"
+  },
+  "analytics": {
+    "telemetry": {
+      "desc": "من خلال اختيار إرسال بيانات التحليل، يمكنك مساعدتنا في تحسين تجربة مستخدم LobeChat بشكل عام",
+      "title": "إرسال بيانات الاستخدام المجهولة"
+    },
+    "title": "تحليلات"
+  },
   "danger": {
     "clear": {
       "action": "مسح الآن",
@@ -21,6 +31,19 @@
     "sessionWithName": "إعدادات الجلسة · {{name}}"
   },
   "llm": {
+    "Anthropic": {
+      "endpoint": {
+        "desc": "بخلاف العنوان الافتراضي، يجب أن يتضمن http(s)://",
+        "placeholder": "https://api.anthropic.com",
+        "title": "عنوان وكيل الواجهة البرمجية للتطبيقات"
+      },
+      "title": "أنثروبيك",
+      "token": {
+        "desc": "أدخل مفتاح API من أنثروبيك",
+        "placeholder": "مفتاح API من أنثروبيك",
+        "title": "مفتاح API"
+      }
+    },
     "AzureOpenAI": {
       "azureApiVersion": {
         "desc": "إصدار واجهة برمجة التطبيقات لـ Azure، يتبع تنسيق YYYY-MM-DD، راجع [أحدث الإصدار](https://learn.microsoft.com/zh-cn/azure/ai-services/openai/reference#chat-completions)",
@@ -74,6 +97,22 @@
         "desc": "املأ مفتاح واجهة برمجة التطبيقات الخاص بك من Google",
         "placeholder": "مفتاح واجهة برمجة التطبيقات الخاص بـ Google",
         "title": "مفتاح واجهة برمجة التطبيقات"
+      }
+    },
+    "Groq": {
+      "title": "Groq",
+      "token": {
+        "desc": "أدخل مفتاح API الخاص بـ Groq",
+        "placeholder": "مفتاح API Groq",
+        "title": "مفتاح API"
+      }
+    },
+    "Mistral": {
+      "title": "Mistral AI",
+      "token": {
+        "desc": "أدخل مفتاح API من Mistral AI",
+        "placeholder": "مفتاح API من Mistral AI",
+        "title": "مفتاح API"
       }
     },
     "Moonshot": {
@@ -138,8 +177,32 @@
         "title": "استخدام Azure OpenAI"
       }
     },
+    "OpenRouter": {
+      "checker": {
+        "desc": "اختبار صحة عنوان الوكيل"
+      },
+      "customModelName": {
+        "desc": "إضافة نموذج مخصص، استخدم فاصلة (،) للنماذج المتعددة",
+        "placeholder": "mistralai/mistral-7b-instruct:free,openchat/openchat-7b:free",
+        "title": "اسم النموذج المخصص"
+      },
+      "title": "OpenRouter",
+      "token": {
+        "desc": "أدخل مفتاح API من OpenRouter AI",
+        "placeholder": "مفتاح API من OpenRouter AI",
+        "title": "مفتاح API"
+      }
+    },
+    "Perplexity": {
+      "title": "Perplexity AI",
+      "token": {
+        "desc": "أدخل مفتاح API من Perplexity AI",
+        "placeholder": "مفتاح API Perplexity AI",
+        "title": "مفتاح الواجهة البرمجية للتطبيق"
+      }
+    },
     "Zhipu": {
-      "title": "智谱",
+      "title": "Zhipu AI",
       "token": {
         "desc": "املأ مفتاح واجهة برمجة التطبيقات الخاص بـ Zhipu",
         "placeholder": "مفتاح واجهة برمجة التطبيقات الخاص بـ Zhipu",
@@ -153,6 +216,14 @@
       "title": "فحص الاتصال"
     },
     "waitingForMore": "يتم <1>التخطيط لتوفير</1> المزيد من النماذج، ترقبوا المزيد ✨"
+  },
+  "ollama": {
+    "download": {
+      "desc": "جارٍ تنزيل النموذج، يرجى عدم إغلاق هذه الصفحة. سيتم استئناف التنزيل من حيث توقف في حالة إعادة التنزيل",
+      "remainingTime": "الوقت المتبقي",
+      "speed": "سرعة التنزيل",
+      "title": "جارٍ تنزيل النموذج {{model}}"
+    }
   },
   "plugin": {
     "addTooltip": "إضافة البرنامج المساعد",
@@ -369,10 +440,47 @@
     "placeholder": "الرجاء إدخال معرف المساعد، يجب أن يكون فريدًا، مثل تطوير الويب",
     "tooltips": "مشاركة في سوق المساعدين"
   },
+  "sync": {
+    "device": {
+      "deviceName": {
+        "hint": "أضف اسمًا للتعرف بشكل أفضل",
+        "placeholder": "الرجاء إدخال اسم الجهاز",
+        "title": "اسم الجهاز"
+      },
+      "title": "معلومات الجهاز",
+      "unknownBrowser": "متصفح غير معروف",
+      "unknownOS": "نظام التشغيل غير معروف"
+    },
+    "warning": {
+      "message": "هذه الميزة لا تزال تحت التجربة وقد تكون هناك حالات غير متوقعة أو غير مستقرة، في حال واجهت مشكلة، يرجى تقديم ردود فعل في الوقت المناسب."
+    },
+    "webrtc": {
+      "channelName": {
+        "desc": "سيستخدم WebRTC هذا الاسم لإنشاء قناة مزامنة، يرجى التأكد من فرادة اسم القناة",
+        "placeholder": "الرجاء إدخال اسم قناة المزامنة",
+        "shuffle": "توليف عشوائي",
+        "title": "اسم قناة المزامنة"
+      },
+      "channelPassword": {
+        "desc": "إضافة كلمة مرور لضمان خصوصية القناة، يمكن للأجهزة الانضمام إلى القناة فقط عند إدخال كلمة المرور الصحيحة",
+        "placeholder": "الرجاء إدخال كلمة مرور قناة المزامنة",
+        "title": "كلمة مرور قناة المزامنة"
+      },
+      "desc": "اتصال البيانات النقطي الفوري يتطلب تواجد الأجهزة معًا للمزامنة",
+      "enabled": {
+        "invalid": "الرجاء إدخال اسم قناة المزامنة قبل تشغيلها",
+        "title": "تمكين المزامنة"
+      },
+      "title": "WebRTC مزامنة"
+    }
+  },
   "tab": {
+    "about": "حول",
     "agent": "المساعد الافتراضي",
     "common": "إعدادات عامة",
+    "experiment": "تجربة",
     "llm": "نموذج اللغة",
+    "sync": "مزامنة السحابة",
     "tts": "خدمة الكلام"
   },
   "tools": {

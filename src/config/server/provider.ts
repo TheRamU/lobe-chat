@@ -6,6 +6,8 @@ declare global {
     interface ProcessEnv {
       CUSTOM_MODELS?: string;
 
+      API_KEY_SELECT_MODE?: string;
+
       // OpenAI Provider
       OPENAI_API_KEY?: string;
       OPENAI_PROXY_URL?: string;
@@ -28,6 +30,22 @@ declare global {
       MOONSHOT_API_KEY?: string;
       MOONSHOT_PROXY_URL?: string;
 
+      // Perplexity Provider
+      PERPLEXITY_API_KEY?: string;
+
+      // Anthropic Provider
+      ANTHROPIC_API_KEY?: string;
+      ANTHROPIC_PROXY_URL?: string;
+
+      // Mistral Provider
+      MISTRAL_API_KEY?: string;
+
+      // Groq Provider
+      GROQ_API_KEY?: string;
+      
+      // OpenRouter Provider
+      OPENROUTER_API_KEY?: string;
+
       // AWS Credentials
       AWS_REGION?: string;
       AWS_ACCESS_KEY_ID?: string;
@@ -35,8 +53,7 @@ declare global {
 
       // Ollama Provider;
       OLLAMA_PROXY_URL?: string;
-
-      DEBUG_CHAT_COMPLETION?: string;
+      OLLAMA_CUSTOM_MODELS?: string;
     }
   }
 }
@@ -53,6 +70,16 @@ export const getProviderConfig = () => {
 
   const MOONSHOT_API_KEY = process.env.MOONSHOT_API_KEY || '';
 
+  const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY || '';
+
+  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || '';
+
+  const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY || '';
+
+  const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
+  
+  const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '';
+
   // region format: iad1,sfo1
   let regions: string[] = [];
   if (process.env.OPENAI_FUNCTION_REGIONS) {
@@ -61,6 +88,8 @@ export const getProviderConfig = () => {
 
   return {
     CUSTOM_MODELS: process.env.CUSTOM_MODELS,
+
+    API_KEY_SELECT_MODE: process.env.API_KEY_SELECT_MODE,
 
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     OPENAI_PROXY_URL: process.env.OPENAI_PROXY_URL,
@@ -72,9 +101,25 @@ export const getProviderConfig = () => {
     ENABLED_GOOGLE: !!GOOGLE_API_KEY,
     GOOGLE_API_KEY,
 
+    ENABLED_PERPLEXITY: !!PERPLEXITY_API_KEY,
+    PERPLEXITY_API_KEY,
+
+    ENABLED_ANTHROPIC: !!ANTHROPIC_API_KEY,
+    ANTHROPIC_API_KEY,
+    ANTHROPIC_PROXY_URL: process.env.ANTHROPIC_PROXY_URL,
+
+    ENABLED_MISTRAL: !!MISTRAL_API_KEY,
+    MISTRAL_API_KEY,
+
+    ENABLED_OPENROUTER: !!OPENROUTER_API_KEY,
+    OPENROUTER_API_KEY,
+
     ENABLED_MOONSHOT: !!MOONSHOT_API_KEY,
     MOONSHOT_API_KEY,
     MOONSHOT_PROXY_URL: process.env.MOONSHOT_PROXY_URL,
+
+    ENABLED_GROQ: !!GROQ_API_KEY,
+    GROQ_API_KEY,
 
     ENABLED_AWS_BEDROCK: !!AWS_ACCESS_KEY_ID,
     AWS_REGION: process.env.AWS_REGION,
@@ -88,7 +133,6 @@ export const getProviderConfig = () => {
 
     ENABLE_OLLAMA: !!process.env.OLLAMA_PROXY_URL,
     OLLAMA_PROXY_URL: process.env.OLLAMA_PROXY_URL || '',
-
-    DEBUG_CHAT_COMPLETION: process.env.DEBUG_CHAT_COMPLETION === '1',
+    OLLAMA_CUSTOM_MODELS: process.env.OLLAMA_CUSTOM_MODELS,
   };
 };

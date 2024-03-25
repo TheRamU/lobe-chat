@@ -48,6 +48,28 @@ export const getProviderAuthPayload = (provider: string) => {
       };
     }
 
+    case ModelProvider.Perplexity: {
+      return { apiKey: modelProviderSelectors.perplexityAPIKey(useGlobalStore.getState()) };
+    }
+
+    case ModelProvider.Anthropic: {
+      const apiKey = modelProviderSelectors.anthropicAPIKey(useGlobalStore.getState());
+      const endpoint = modelProviderSelectors.anthropicProxyUrl(useGlobalStore.getState());
+      return { apiKey, endpoint };
+    }
+
+    case ModelProvider.Mistral: {
+      return { apiKey: modelProviderSelectors.mistralAPIKey(useGlobalStore.getState()) };
+    }
+
+    case ModelProvider.Groq: {
+      return { apiKey: modelProviderSelectors.groqAPIKey(useGlobalStore.getState()) };
+    }
+    
+    case ModelProvider.OpenRouter: {
+      return { apiKey: modelProviderSelectors.openrouterAPIKey(useGlobalStore.getState()) };
+    }
+
     default:
     case ModelProvider.OpenAI: {
       const openai = modelProviderSelectors.openAIConfig(useGlobalStore.getState());

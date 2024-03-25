@@ -12,6 +12,7 @@ export interface CreateMessageParams
   fromModel?: string;
   fromProvider?: string;
   sessionId: string;
+  traceId?: string;
 }
 
 export interface QueryMessageParams {
@@ -25,19 +26,8 @@ class _MessageModel extends BaseModel {
   constructor() {
     super('messages', DB_MessageSchema);
   }
-  async create(data: CreateMessageParams) {
-    const id = nanoid();
 
-    const messageData: DB_Message = this.mapChatMessageToDBMessage(data as ChatMessage);
-
-    return this._add(messageData, id);
-  }
-
-  async batchCreate(messages: ChatMessage[]) {
-    const data: DB_Message[] = messages.map((m) => this.mapChatMessageToDBMessage(m));
-
-    return this._batchAdd(data);
-  }
+  // **************** Query *************** //
 
   async query({
     sessionId,
@@ -90,45 +80,57 @@ class _MessageModel extends BaseModel {
     return this.table.get(id);
   }
 
+  async queryAll() {
+    const data: DBModel<DB_Message>[] = await this.table.orderBy('updatedAt').toArray();
+
+    return data.map((element) => this.mapToChatMessage(element));
+  }
+
+  async queryBySessionId(sessionId: string) {
+    return this.table.where('sessionId').equals(sessionId).toArray();
+  }
+
+  queryByTopicId = async (topicId: string) => {
+    const dbMessages = await this.table.where('topicId').equals(topicId).toArray();
+
+    return dbMessages.map((message) => this.mapToChatMessage(message));
+  };
+
+  async count() {
+    return this.table.count();
+  }
+
+  // **************** Create *************** //
+
+  async create(data: CreateMessageParams) {
+    const id = nanoid();
+
+    const messageData: DB_Message = this.mapChatMessageToDBMessage(data as ChatMessage);
+
+    return this._addWithSync(messageData, id);
+  }
+
+  async batchCreate(messages: ChatMessage[]) {
+    const data: DB_Message[] = messages.map((m) => this.mapChatMessageToDBMessage(m));
+
+    return this._batchAdd(data, { withSync: true });
+  }
+
+  async duplicateMessages(messages: ChatMessage[]): Promise<ChatMessage[]> {
+    const duplicatedMessages = await this.createDuplicateMessages(messages);
+    // 批量添加复制后的消息到数据库
+    await this.batchCreate(duplicatedMessages);
+    return duplicatedMessages;
+  }
+
+  // **************** Delete *************** //
+
   async delete(id: string) {
-    return this.table.delete(id);
+    return super._deleteWithSync(id);
   }
 
   async clearTable() {
-    return this.table.clear();
-  }
-
-  async update(id: string, data: DeepPartial<DB_Message>) {
-    return super._update(id, data);
-  }
-
-  async updatePluginState(id: string, key: string, value: any) {
-    const item = await this.findById(id);
-
-    return this.update(id, { pluginState: { ...item.pluginState, [key]: value } });
-  }
-
-  /**
-   * Batch updates multiple fields of the specified messages.
-   *
-   * @param {string[]} messageIds - The identifiers of the messages to be updated.
-   * @param {Partial<DB_Message>} updateFields - An object containing the fields to update and their new values.
-   * @returns {Promise<number>} - The number of updated messages.
-   */
-  async batchUpdate(messageIds: string[], updateFields: Partial<DB_Message>): Promise<number> {
-    // Retrieve the messages by their IDs
-    const messagesToUpdate = await this.table.where(':id').anyOf(messageIds).toArray();
-
-    // Update the specified fields of each message
-    const updatedMessages = messagesToUpdate.map((message) => ({
-      ...message,
-      ...updateFields,
-    }));
-
-    // Use the bulkPut method to update the messages in bulk
-    await this.table.bulkPut(updatedMessages);
-
-    return updatedMessages.length;
+    return this._clearWithSync();
   }
 
   /**
@@ -154,39 +156,66 @@ class _MessageModel extends BaseModel {
     const messageIds = await query.primaryKeys();
 
     // Use the bulkDelete method to delete all selected messages in bulk
-    return this.table.bulkDelete(messageIds);
+    return this._bulkDeleteWithSync(messageIds);
   }
 
-  async queryAll() {
-    const data: DBModel<DB_Message>[] = await this.table.orderBy('updatedAt').toArray();
+  async batchDeleteBySessionId(sessionId: string): Promise<void> {
+    // If topicId is specified, use both assistantId and topicId as the filter criteria in the query.
+    // Otherwise, filter by assistantId and require that topicId is undefined.
+    const messageIds = await this.table.where('sessionId').equals(sessionId).primaryKeys();
 
-    return data.map((element) => this.mapToChatMessage(element));
+    // Use the bulkDelete method to delete all selected messages in bulk
+    return this._bulkDeleteWithSync(messageIds);
   }
 
-  async isEmpty() {
-    const count = await this.table.count();
+  /**
+   * Delete all messages associated with the topicId
+   * @param topicId
+   */
+  async batchDeleteByTopicId(topicId: string): Promise<void> {
+    const messageIds = await this.table.where('topicId').equals(topicId).primaryKeys();
 
-    return count === 0;
+    return this._bulkDeleteWithSync(messageIds);
   }
 
-  async queryBySessionId(sessionId: string) {
-    return this.table.where('sessionId').equals(sessionId).toArray();
+  // **************** Update *************** //
+
+  async update(id: string, data: DeepPartial<DB_Message>) {
+    return super._updateWithSync(id, data);
   }
 
-  queryByTopicId = async (topicId: string) => {
-    const dbMessages = await this.table.where('topicId').equals(topicId).toArray();
+  async updatePluginState(id: string, key: string, value: any) {
+    const item = await this.findById(id);
 
-    return dbMessages.map((message) => this.mapToChatMessage(message));
-  };
-
-  async duplicateMessages(messages: ChatMessage[]): Promise<ChatMessage[]> {
-    const duplicatedMessages = await this.createDuplicateMessages(messages);
-    // 批量添加复制后的消息到数据库
-    await this.batchCreate(duplicatedMessages);
-    return duplicatedMessages;
+    return this.update(id, { pluginState: { ...item.pluginState, [key]: value } });
   }
 
-  async createDuplicateMessages(messages: ChatMessage[]): Promise<ChatMessage[]> {
+  /**
+   * Batch updates multiple fields of the specified messages.
+   *
+   * @param {string[]} messageIds - The identifiers of the messages to be updated.
+   * @param {Partial<DB_Message>} updateFields - An object containing the fields to update and their new values.
+   * @returns {Promise<number>} - The number of updated messages.
+   */
+  async batchUpdate(messageIds: string[], updateFields: Partial<DB_Message>): Promise<number> {
+    // Retrieve the messages by their IDs
+    const messagesToUpdate = await this.table.where('id').anyOf(messageIds).toArray();
+
+    // Update the specified fields of each message
+    const updatedMessages = messagesToUpdate.map((message) => ({
+      ...message,
+      ...updateFields,
+    }));
+
+    // Use the bulkPut method to update the messages in bulk
+    await this._bulkPutWithSync(updatedMessages);
+
+    return updatedMessages.length;
+  }
+
+  // **************** Helper *************** //
+
+  private async createDuplicateMessages(messages: ChatMessage[]): Promise<ChatMessage[]> {
     // 创建一个映射来存储原始消息ID和复制消息ID之间的关系
     const idMapping = new Map<string, string>();
 

@@ -9,7 +9,7 @@ import ChatList from '@/features/Conversation/components/ChatList';
 import { useSessionStore } from '@/store/session';
 import { agentSelectors, sessionSelectors } from '@/store/session/selectors';
 
-import PluginTag from '../../ChatHeader/PluginTag';
+import PluginTag from '../../PluginTag';
 import { useStyles } from './style';
 import { FieldType } from './type';
 
@@ -51,7 +51,7 @@ const Preview = memo<FieldType & { title?: string }>(
               </Flexbox>
               {withSystemRole && systemRole && (
                 <div className={styles.role}>
-                  <Markdown className={styles.markdown}>{systemRole}</Markdown>
+                  <Markdown variant={'chat'}>{systemRole}</Markdown>
                 </div>
               )}
             </div>

@@ -6,10 +6,15 @@ import { Center, Flexbox } from 'react-layout-kit';
 import { ModelProvider } from '@/libs/agent-runtime';
 import { useChatStore } from '@/store/chat';
 
+import AnthropicForm from './Anthropic';
 import BedrockForm from './Bedrock';
 import GoogleForm from './Google';
+import GroqForm from './Groq';
+import MistralForm from './Mistral';
 import MoonshotForm from './Moonshot';
 import OpenAIForm from './OpenAI';
+import OpenRouterForm from './OpenRouter';
+import PerplexityForm from './Perplexity';
 import ZhipuForm from './Zhipu';
 
 interface APIKeyFormProps {
@@ -20,7 +25,7 @@ interface APIKeyFormProps {
 const APIKeyForm = memo<APIKeyFormProps>(({ id, provider }) => {
   const { t } = useTranslation('error');
 
-  const [resend, deleteMessage] = useChatStore((s) => [s.resendMessage, s.deleteMessage]);
+  const [resend, deleteMessage] = useChatStore((s) => [s.internalResendMessage, s.deleteMessage]);
 
   const action = useMemo(() => {
     switch (provider as ModelProvider) {
@@ -36,8 +41,28 @@ const APIKeyForm = memo<APIKeyFormProps>(({ id, provider }) => {
         return <ZhipuForm />;
       }
 
+      case ModelProvider.Mistral: {
+        return <MistralForm />;
+      }
+
       case ModelProvider.Moonshot: {
         return <MoonshotForm />;
+      }
+
+      case ModelProvider.Perplexity: {
+        return <PerplexityForm />;
+      }
+
+      case ModelProvider.Anthropic: {
+        return <AnthropicForm />;
+      }
+
+      case ModelProvider.Groq: {
+        return <GroqForm />;
+      }
+      
+      case ModelProvider.OpenRouter: {
+        return <OpenRouterForm />;
       }
 
       default:

@@ -3,7 +3,6 @@ import { DeepPartial } from 'utility-types';
 import { DEFAULT_AGENT_LOBE_SESSION } from '@/const/session';
 import { BaseModel } from '@/database/core';
 import { DBModel } from '@/database/core/types/db';
-import { SessionGroupModel } from '@/database/models/sessionGroup';
 import { DB_Session, DB_SessionSchema } from '@/database/schemas/session';
 import { LobeAgentConfig } from '@/types/agent';
 import {
@@ -16,34 +15,16 @@ import {
 import { merge } from '@/utils/merge';
 import { uuid } from '@/utils/uuid';
 
+import { MessageModel } from './message';
+import { SessionGroupModel } from './sessionGroup';
+import { TopicModel } from './topic';
+
 class _SessionModel extends BaseModel {
   constructor() {
     super('sessions', DB_SessionSchema);
   }
 
-  async create(type: 'agent' | 'group', defaultValue: Partial<LobeAgentSession>, id = uuid()) {
-    const data = merge(DEFAULT_AGENT_LOBE_SESSION, { type, ...defaultValue });
-    const dataDB = this.mapToDB_Session(data);
-    return this._add(dataDB, id);
-  }
-
-  async batchCreate(sessions: LobeAgentSession[]) {
-    const DB_Sessions = await Promise.all(
-      sessions.map(async (s) => {
-        if (s.group && s.group !== SessionDefaultGroup.Default) {
-          // Check if the group exists in the SessionGroup table
-          const groupExists = await SessionGroupModel.findById(s.group);
-          // If the group does not exist, set it to default
-          if (!groupExists) {
-            s.group = SessionDefaultGroup.Default;
-          }
-        }
-        return this.mapToDB_Session(s);
-      }),
-    );
-
-    return this._batchAdd<DB_Session>(DB_Sessions, { idGenerator: uuid });
-  }
+  // **************** Query *************** //
 
   async query({
     pageSize = 9999,
@@ -101,59 +82,6 @@ class _SessionModel extends BaseModel {
     const groupItems = await Promise.all(pools);
 
     return Object.fromEntries(groupItems);
-  }
-
-  async update(id: string, data: Partial<DB_Session>) {
-    return super._update(id, data);
-  }
-
-  async updatePinned(id: string, pinned: boolean) {
-    return this.update(id, { pinned: pinned ? 1 : 0 });
-  }
-
-  async updateConfig(id: string, data: DeepPartial<LobeAgentConfig>) {
-    const session = await this.findById(id);
-    if (!session) return;
-
-    const config = merge(session.config, data);
-
-    return this.update(id, { config });
-  }
-
-  /**
-   * Delete a session , also delete all messages and topic associated with it.
-   */
-  async delete(id: string) {
-    return this.db.transaction('rw', [this.table, this.db.topics, this.db.messages], async () => {
-      // Delete all topics associated with the session
-      const topics = await this.db.topics.where('sessionId').equals(id).toArray();
-      const topicIds = topics.map((topic) => topic.id);
-      if (topicIds.length > 0) {
-        await this.db.topics.bulkDelete(topicIds);
-      }
-
-      // Delete all messages associated with the session
-      const messages = await this.db.messages.where('sessionId').equals(id).toArray();
-      const messageIds = messages.map((message) => message.id);
-      if (messageIds.length > 0) {
-        await this.db.messages.bulkDelete(messageIds);
-      }
-
-      // Finally, delete the session itself
-      await this.table.delete(id);
-    });
-  }
-
-  async clearTable() {
-    return this.table.clear();
-  }
-
-  async findById(id: string): Promise<DBModel<DB_Session>> {
-    return this.table.get(id);
-  }
-
-  async isEmpty() {
-    return (await this.table.count()) === 0;
   }
 
   /**
@@ -225,15 +153,6 @@ class _SessionModel extends BaseModel {
     return this.mapToAgentSessions(items);
   }
 
-  async duplicate(id: string, newTitle?: string) {
-    const session = await this.findById(id);
-    if (!session) return;
-
-    const newSession = merge(session, { meta: { title: newTitle } });
-
-    return this._add(newSession, uuid());
-  }
-
   async getPinnedSessions(): Promise<LobeSessions> {
     const items: DBModel<DB_Session>[] = await this.table
       .where('pinned')
@@ -243,6 +162,96 @@ class _SessionModel extends BaseModel {
 
     return this.mapToAgentSessions(items);
   }
+
+  async findById(id: string): Promise<DBModel<DB_Session>> {
+    return this.table.get(id);
+  }
+
+  async isEmpty() {
+    return (await this.table.count()) === 0;
+  }
+
+  // **************** Create *************** //
+
+  async create(type: 'agent' | 'group', defaultValue: Partial<LobeAgentSession>, id = uuid()) {
+    const data = merge(DEFAULT_AGENT_LOBE_SESSION, { type, ...defaultValue });
+    const dataDB = this.mapToDB_Session(data);
+    return this._addWithSync(dataDB, id);
+  }
+
+  async batchCreate(sessions: LobeAgentSession[]) {
+    const DB_Sessions = await Promise.all(
+      sessions.map(async (s) => {
+        if (s.group && s.group !== SessionDefaultGroup.Default) {
+          // Check if the group exists in the SessionGroup table
+          const groupExists = await SessionGroupModel.findById(s.group);
+          // If the group does not exist, set it to default
+          if (!groupExists) {
+            s.group = SessionDefaultGroup.Default;
+          }
+        }
+        return this.mapToDB_Session(s);
+      }),
+    );
+
+    return this._batchAdd<DB_Session>(DB_Sessions, { idGenerator: uuid });
+  }
+
+  async duplicate(id: string, newTitle?: string) {
+    const session = await this.findById(id);
+    if (!session) return;
+
+    const newSession = merge(session, { meta: { title: newTitle } });
+
+    return this._addWithSync(newSession, uuid());
+  }
+
+  // **************** Delete *************** //
+
+  /**
+   * Delete a session , also delete all messages and topic associated with it.
+   */
+  async delete(id: string) {
+    return this.db.transaction('rw', [this.table, this.db.topics, this.db.messages], async () => {
+      // Delete all topics associated with the session
+      await TopicModel.batchDeleteBySessionId(id);
+
+      // Delete all messages associated with the session
+      await MessageModel.batchDeleteBySessionId(id);
+
+      // Finally, delete the session itself
+      await this._deleteWithSync(id);
+    });
+  }
+
+  async batchDelete(ids: string[]) {
+    return this._bulkDeleteWithSync(ids);
+  }
+
+  async clearTable() {
+    return this._clearWithSync();
+  }
+
+  // **************** Update *************** //
+
+  async update(id: string, data: Partial<DB_Session>) {
+    return super._updateWithSync(id, data);
+  }
+
+  async updatePinned(id: string, pinned: boolean) {
+    return this.update(id, { pinned: pinned ? 1 : 0 });
+  }
+
+  async updateConfig(id: string, data: DeepPartial<LobeAgentConfig>) {
+    const session = await this.findById(id);
+    if (!session) return;
+
+    const config = merge(session.config, data);
+
+    return this.update(id, { config });
+  }
+
+  // **************** Helper *************** //
 
   private mapToDB_Session(session: LobeAgentSession): DBModel<DB_Session> {
     return {

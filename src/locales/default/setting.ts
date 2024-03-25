@@ -1,4 +1,14 @@
 export default {
+  about: {
+    title: '关于',
+  },
+  analytics: {
+    telemetry: {
+      desc: '通过选择发送遥测数据，你可以帮助我们改善 LobeChat 整体用户体验',
+      title: '发送匿名使用数据',
+    },
+    title: '数据统计',
+  },
   danger: {
     clear: {
       action: '立即清除',
@@ -21,6 +31,19 @@ export default {
     sessionWithName: '会话设置 · {{name}}',
   },
   llm: {
+    Anthropic: {
+      endpoint: {
+        desc: '除默认地址外，必须包含 http(s)://',
+        placeholder: 'https://api.anthropic.com',
+        title: 'API 代理地址',
+      },
+      title: 'Anthropic',
+      token: {
+        desc: '填入来自 Anthropic 的 API Key',
+        placeholder: 'Anthropic API Key',
+        title: 'API Key',
+      },
+    },
     AzureOpenAI: {
       azureApiVersion: {
         desc: 'Azure 的 API 版本，遵循 YYYY-MM-DD 格式，查阅[最新版本](https://learn.microsoft.com/zh-cn/azure/ai-services/openai/reference#chat-completions)',
@@ -74,6 +97,22 @@ export default {
       token: {
         desc: '填入来自 Google 的 API Key',
         placeholder: 'Google API Key',
+        title: 'API Key',
+      },
+    },
+    Groq: {
+      title: 'Groq',
+      token: {
+        desc: '填入来自 Groq 的 API Key',
+        placeholder: 'Groq API Key',
+        title: 'API Key',
+      },
+    },
+    Mistral: {
+      title: 'Mistral AI',
+      token: {
+        desc: '填入来自 Mistral AI 的 API Key',
+        placeholder: 'Mistral AI API Key',
         title: 'API Key',
       },
     },
@@ -139,6 +178,30 @@ export default {
         title: 'Azure OpenAI',
       },
     },
+    OpenRouter: {
+      checker: {
+        desc: '测试代理地址是否正确填写',
+      },
+      customModelName: {
+        desc: '增加自定义模型，多个模型使用逗号（,）隔开',
+        placeholder: 'mistralai/mistral-7b-instruct:free,openchat/openchat-7b:free',
+        title: '自定义模型名称',
+      },
+      title: 'OpenRouter',
+      token: {
+        desc: '填入来自 OpenRouter AI 的 API Key',
+        placeholder: 'OpenRouter AI API Key',
+        title: 'API Key',
+      },
+    },
+    Perplexity: {
+      title: 'Perplexity',
+      token: {
+        desc: '填入来自 Perplexity AI 的 API Key',
+        placeholder: 'Perplexity AI API Key',
+        title: 'API Key',
+      },
+    },
     Zhipu: {
       title: '智谱',
       token: {
@@ -155,6 +218,14 @@ export default {
       title: '连通性检查',
     },
     waitingForMore: '更多模型正在 <1>计划接入</1> 中，敬请期待 ✨',
+  },
+  ollama: {
+    download: {
+      desc: 'Ollama 正在下载该模型，请尽量不要关闭本页面。重新下载时将会中断处继续',
+      remainingTime: '剩余时间',
+      speed: '下载速度',
+      title: '正在下载模型 {{model}} ',
+    },
   },
   plugin: {
     addTooltip: '自定义插件',
@@ -371,10 +442,48 @@ export default {
     placeholder: '请输入助手的标识符，需要是唯一的，比如 web-development',
     tooltips: '分享到助手市场',
   },
+  sync: {
+    device: {
+      deviceName: {
+        hint: '添加名称以便于识别',
+        placeholder: '请输入设备名称',
+        title: '设备名称',
+      },
+      title: '设备信息',
+      unknownBrowser: '未知浏览器',
+      unknownOS: '未知系统',
+    },
+    warning: {
+      message: '本功能目前仍为实验性功能，可能存在预期外或不稳定的情况，如遇到问题请及时提交反馈。',
+    },
+    webrtc: {
+      channelName: {
+        desc: 'WebRTC 将使用此名创建同步频道，确保频道名称唯一',
+        placeholder: '请输入同步频道名称',
+        shuffle: '随机生成',
+        title: '同步频道名称',
+      },
+      channelPassword: {
+        desc: '添加密码确保频道私密性，只有密码正确时，设备才可加入频道',
+        placeholder: '请输入同步频道密码',
+        title: '同步频道密码',
+      },
+      desc: '实时、点对点的数据通信，需设备同时在线才可同步',
+      enabled: {
+        invalid: '请填写同步频道名称后再开启',
+        // desc: 'WebRTC 将使用此名创建同步频道，确保频道名称唯一',
+        title: '开启同步',
+      },
+      title: 'WebRTC 同步',
+    },
+  },
   tab: {
+    about: '关于',
     agent: '默认助手',
     common: '通用设置',
+    experiment: '实验',
     llm: '语言模型',
+    sync: '云端同步',
     tts: '语音服务',
   },
   tools: {

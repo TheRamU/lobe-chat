@@ -1,4 +1,14 @@
 {
+  "about": {
+    "title": "Acerca de"
+  },
+  "analytics": {
+    "telemetry": {
+      "desc": "Al seleccionar el envío de datos de telemetría, nos ayudas a mejorar la experiencia general del usuario de LobeChat",
+      "title": "Enviar datos de uso anónimos"
+    },
+    "title": "Análisis de datos"
+  },
   "danger": {
     "clear": {
       "action": "Limpiar ahora",
@@ -21,6 +31,19 @@
     "sessionWithName": "Configuración de la sesión · {{name}}"
   },
   "llm": {
+    "Anthropic": {
+      "endpoint": {
+        "desc": "Debe incluir http(s):// además de la dirección predeterminada",
+        "placeholder": "https://api.anthropic.com",
+        "title": "Dirección del proxy de la API"
+      },
+      "title": "Anthropic",
+      "token": {
+        "desc": "Introduce la clave API de Anthropic",
+        "placeholder": "Clave API de Anthropic",
+        "title": "Clave API"
+      }
+    },
     "AzureOpenAI": {
       "azureApiVersion": {
         "desc": "Versión de la API de Azure, en formato YYYY-MM-DD. Consulta la [última versión](https://learn.microsoft.com/es-es/azure/ai-services/openai/reference#chat-completions)",
@@ -73,6 +96,22 @@
       "token": {
         "desc": "Ingresa la clave API de Google",
         "placeholder": "Clave API de Google",
+        "title": "Clave API"
+      }
+    },
+    "Groq": {
+      "title": "Groq",
+      "token": {
+        "desc": "Ingresa la clave API de Groq",
+        "placeholder": "Clave API de Groq",
+        "title": "Clave API"
+      }
+    },
+    "Mistral": {
+      "title": "Mistral AI",
+      "token": {
+        "desc": "Introduce la clave API de Mistral AI",
+        "placeholder": "Clave API de Mistral AI",
         "title": "Clave API"
       }
     },
@@ -138,8 +177,32 @@
         "title": "Azure OpenAI"
       }
     },
+    "OpenRouter": {
+      "checker": {
+        "desc": "Verifica si la dirección del proxy está correctamente escrita"
+      },
+      "customModelName": {
+        "desc": "Agrega modelos personalizados, separados por comas (,) si son varios",
+        "placeholder": "mistralai/mistral-7b-instruct:free,openchat/openchat-7b:free",
+        "title": "Nombre del modelo personalizado"
+      },
+      "title": "OpenRouter",
+      "token": {
+        "desc": "Ingresa la API Key de OpenRouter AI",
+        "placeholder": "API Key de OpenRouter AI",
+        "title": "API Key"
+      }
+    },
+    "Perplexity": {
+      "title": "Perplexity AI",
+      "token": {
+        "desc": "Introduce la clave API de Perplexity AI",
+        "placeholder": "Clave API de Perplexity AI",
+        "title": "Clave API"
+      }
+    },
     "Zhipu": {
-      "title": "智谱",
+      "title": "Zhipu AI",
       "token": {
         "desc": "Ingresa la clave API de Zhipu",
         "placeholder": "Clave API de Zhipu",
@@ -153,6 +216,14 @@
       "title": "Comprobación de conectividad"
     },
     "waitingForMore": "Más modelos están en <1>planificación para su incorporación</1>, ¡estén atentos! ✨"
+  },
+  "ollama": {
+    "download": {
+      "desc": "Ollama está descargando este modelo. Por favor, no cierres esta página. La descarga se reanudará desde donde se detuvo si se reinicia.",
+      "remainingTime": "Tiempo restante",
+      "speed": "Velocidad de descarga",
+      "title": "Descargando el modelo {{model}}"
+    }
   },
   "plugin": {
     "addTooltip": "Agregar complemento personalizado",
@@ -369,10 +440,47 @@
     "placeholder": "Ingrese el identificador único del asistente, por ejemplo desarrollo-web",
     "tooltips": "Compartir en el mercado de asistentes"
   },
+  "sync": {
+    "device": {
+      "deviceName": {
+        "hint": "Agrega un nombre para identificar el dispositivo",
+        "placeholder": "Introduce el nombre del dispositivo",
+        "title": "Nombre del dispositivo"
+      },
+      "title": "Información del dispositivo",
+      "unknownBrowser": "Navegador desconocido",
+      "unknownOS": "Sistema operativo desconocido"
+    },
+    "warning": {
+      "message": "Esta función todavía está en fase experimental y puede presentar situaciones inesperadas o inestables. Si encuentras algún problema, por favor envía tus comentarios de inmediato."
+    },
+    "webrtc": {
+      "channelName": {
+        "desc": "WebRTC utilizará este nombre para crear un canal de sincronización. Asegúrate de que el nombre del canal sea único",
+        "placeholder": "Introduce el nombre del canal de sincronización",
+        "shuffle": "Generar aleatoriamente",
+        "title": "Nombre del canal de sincronización"
+      },
+      "channelPassword": {
+        "desc": "Agrega una contraseña para garantizar la privacidad del canal. Solo los dispositivos con la contraseña correcta podrán unirse al canal",
+        "placeholder": "Introduce la contraseña del canal de sincronización",
+        "title": "Contraseña del canal de sincronización"
+      },
+      "desc": "Comunicación de datos en tiempo real y punto a punto. Los dispositivos deben estar en línea simultáneamente para sincronizarse",
+      "enabled": {
+        "invalid": "Por favor, introduce el nombre del canal de sincronización antes de activar",
+        "title": "Activar sincronización"
+      },
+      "title": "Sincronización WebRTC"
+    }
+  },
   "tab": {
+    "about": "Acerca de",
     "agent": "Asistente predeterminado",
     "common": "Configuración común",
+    "experiment": "Experimento",
     "llm": "Modelo de lenguaje",
+    "sync": "Sincronización en la nube",
     "tts": "Servicio de voz"
   },
   "tools": {
