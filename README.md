@@ -227,7 +227,7 @@ In addition, these plugins are not limited to news aggregation, but can also ext
 | [Bilibili](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **LobeHub** on **2024-01-27**</sup>       | Dive into Bilibili's vast content with features like keyword video search, replay access, interactive danmaku, trending video recommendations, and hot-search insights, all at your fingertips.<br/>`video` `bilibili` `search` |
 | [Steam](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **LobeHub** on **2024-01-27**</sup>          | Obtain game information and user reviews from Steam.<br/>`steam` `game`                                                                                                                                                         |
 
-> 📊 Total plugins: [<kbd>**57**</kbd>](https://github.com/lobehub/lobe-chat-plugins)
+> 📊 Total plugins: [<kbd>**55**</kbd>](https://github.com/lobehub/lobe-chat-plugins)
 
  <!-- PLUGIN LIST -->
 
@@ -259,14 +259,14 @@ Our marketplace is not just a showcase platform but also a collaborative space. 
 
 <!-- AGENT LIST -->
 
-| Recent Submits                                                                                                                                                                                              | Description                                                                                                                                                                      |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Claim Analyzer](https://chat-preview.lobehub.com/market?agent=fact-checking)<br/><sup>By **[pedroespecial101](https://github.com/pedroespecial101)** on **2024-03-25**</sup>                               | Detailed truth analyzer (from <https://github.com/danielmiessler/fabric>)<br/>`https-github-com-danielmiessler-fabric`                                                           |
-| [Rap Lyric Master](https://chat-preview.lobehub.com/market?agent=rap-writer)<br/><sup>By **[aoocar](https://github.com/aoocar)** on **2024-03-25**</sup>                                                    | Match lyrics in the form of rap lyrics, and create rap lyrics according to the reference format<br/>`rap` `lyrics`                                                               |
-| [Mdx SEO Expert](https://chat-preview.lobehub.com/market?agent=mdx-seo)<br/><sup>By **[canisminor1990](https://github.com/canisminor1990)** on **2024-03-24**</sup>                                         | Skilled in converting Markdown article content into optimized matter JSON format data, enhancing the article's online visibility and search engine ranking.<br/>`seo` `markdown` |
-| [Traditional Chinese Medicine Practitioner](https://chat-preview.lobehub.com/market?agent=claude-national-medical-master)<br/><sup>By **[GalileoFe](https://github.com/GalileoFe)** on **2024-03-22**</sup> | Let me take a look!<br/>`consultation` `health`                                                                                                                                  |
+| Recent Submits                                                                                                                                                                                      | Description                                                                                                                                                         |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Blood Test Analyst](https://chat-preview.lobehub.com/market?agent=blood-analyst)<br/><sup>By **[SimoMay](https://github.com/SimoMay)** on **2024-03-27**</sup>                                     | Skilled in analysing blood test results, providing clear feedback using emojis for easy understanding.<br/>`healthcare` `analysis` `results` `consulting` `summary` |
+| [High EQ Flattery Assistant](https://chat-preview.lobehub.com/market?agent=gpts-big-fart-chat)<br/><sup>By **[MapleEve](https://github.com/MapleEve)** on **2024-03-27**</sup>                      | An expert in precise chat compliments, providing suitable praise and flattery<br/>`compliments` `eq` `chat`                                                         |
+| [Suno.ai Music Creation Assistant](https://chat-preview.lobehub.com/market?agent=suno-music-creator)<br/><sup>By **[MapleEve](https://github.com/MapleEve)** on **2024-03-27**</sup>                | Song creation and translation based on SunoAI<br/>`suno` `lyricist` `lyrics` `music-production`                                                                     |
+| [Image Recognition Xiaohongshu Copywriting](https://chat-preview.lobehub.com/market?agent=xiaonghongshu-vision)<br/><sup>By **[HansKing98](https://github.com/HansKing98)** on **2024-03-27**</sup> | You can use this agent combined with a multimodal model to upload images and generate Xiaohongshu-style copywriting.<br/>`vision`                                   |
 
-> 📊 Total agents: [<kbd>**218**</kbd> ](https://github.com/lobehub/lobe-chat-agents)
+> 📊 Total agents: [<kbd>**224**</kbd> ](https://github.com/lobehub/lobe-chat-agents)
 
  <!-- AGENT LIST -->
 
