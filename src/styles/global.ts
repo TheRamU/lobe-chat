@@ -30,4 +30,11 @@ export default ({ prefixCls }: { prefixCls: string }) => css`
       }
     }
   }
+
+  * {
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
 `;
