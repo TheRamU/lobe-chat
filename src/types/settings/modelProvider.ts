@@ -1,7 +1,5 @@
 import { ChatModelCard } from '@/types/llm';
 
-export type CustomModels = { displayName: string; id: string }[];
-
 export interface GeneralModelProviderConfig {
   apiKey?: string;
   /**
@@ -18,6 +16,10 @@ export interface GeneralModelProviderConfig {
    */
   enabledModels?: string[] | null;
   endpoint?: string;
+  /**
+   * whether fetch on client
+   */
+  fetchOnClient?: boolean;
   /**
    * the latest fetch model list time
    */

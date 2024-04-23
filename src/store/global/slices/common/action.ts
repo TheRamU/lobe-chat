@@ -62,6 +62,9 @@ export const createCommonSlice: StateCreator<
 
   refreshUserConfig: async () => {
     await mutate([USER_CONFIG_FETCH_KEY, true]);
+
+    // when get the user config ,refresh the model provider list to the latest
+    get().refreshModelProviderList();
   },
 
   switchBackToChat: (sessionId) => {
@@ -144,7 +147,7 @@ export const createCommonSlice: StateCreator<
       },
       {
         onSuccess: (syncEnabled) => {
-          set({ syncEnabled });
+          set({ syncEnabled }, false, n('useEnabledSync'));
         },
         revalidateOnFocus: false,
       },
@@ -159,7 +162,10 @@ export const createCommonSlice: StateCreator<
           };
 
           const defaultSettings = merge(get().defaultSettings, serverSettings);
+
           set({ defaultSettings, serverConfig: data }, false, n('initGlobalConfig'));
+
+          get().refreshDefaultModelProviderList({ trigger: 'fetchServerConfig' });
         }
       },
       revalidateOnFocus: false,
@@ -180,6 +186,9 @@ export const createCommonSlice: StateCreator<
             false,
             n('fetchUserConfig', data),
           );
+
+          // when get the user config ,refresh the model provider list to the latest
+          get().refreshDefaultModelProviderList({ trigger: 'fetchUserConfig' });
 
           const { language } = settingsSelectors.currentSettings(get());
           if (language === 'auto') {
