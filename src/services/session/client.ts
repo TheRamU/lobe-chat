@@ -4,7 +4,7 @@ import { INBOX_SESSION_ID } from '@/const/session';
 import { SessionModel } from '@/database/client/models/session';
 import { SessionGroupModel } from '@/database/client/models/sessionGroup';
 import { UserModel } from '@/database/client/models/user';
-import { useGlobalStore } from '@/store/global';
+import { useUserStore } from '@/store/user';
 import { LobeAgentConfig } from '@/types/agent';
 import {
   ChatSessionList,
@@ -80,7 +80,7 @@ export class ClientService implements ISessionService {
     return SessionModel.count();
   }
   async hasSessions() {
-    return (await this.countSessions()) === 0;
+    return (await this.countSessions()) !== 0;
   }
 
   async searchSessions(keyword: string) {
@@ -97,7 +97,7 @@ export class ClientService implements ISessionService {
 
   async updateSessionConfig(activeId: string, config: DeepPartial<LobeAgentConfig>) {
     if (activeId === INBOX_SESSION_ID) {
-      return useGlobalStore.getState().updateDefaultAgent({ config });
+      return useUserStore.getState().updateDefaultAgent({ config });
     }
 
     return SessionModel.updateConfig(activeId, config);

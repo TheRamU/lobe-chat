@@ -1,4 +1,15 @@
 export default {
+  error: {
+    backHome: '返回首页',
+    desc: '待会来试试，或者回到已知的世界',
+    retry: '重新加载',
+    title: '页面遇到一点问题..',
+  },
+  notFound: {
+    backHome: '返回首页',
+    desc: '我们找不到你正在寻找的页面，请检查链接是否正确',
+    title: '进入了未知领域？',
+  },
   pluginSettings: {
     desc: '完成以下配置，即可开始使用该插件',
     title: '{{name}} 插件配置',
@@ -99,6 +110,9 @@ export default {
     OllamaServiceUnavailable:
       'Ollama 服务连接失败，请检查 Ollama 是否运行正常，或是否正确设置 Ollama 的跨域配置',
 
+    MinimaxBizError: '请求 Minimax 服务出错，请根据以下信息排查或重试',
+    InvalidMinimaxAPIKey: 'Minimax API Key 不正确或为空，请检查 Minimax API Key 后重试',
+
     AgentRuntimeError: 'Lobe AI Runtime 执行出错，请根据以下信息排查或重试',
     /* eslint-enable */
   },
@@ -112,6 +126,7 @@ export default {
     addProxyUrl: '添加 OpenAI 代理地址（可选）',
     closeMessage: '关闭提示',
     confirm: '确认并重试',
+
     oauth: {
       description: '管理员已开启统一登录认证，点击下方按钮登录，即可解锁应用',
       success: '登录成功',
