@@ -56,6 +56,6 @@
   ],
   "short_name": "LobeChat",
   "splash_pages": null,
-  "start_url": "/chat/mobile",
+  "start_url": ".",
   "theme_color": "#000000"
 }
