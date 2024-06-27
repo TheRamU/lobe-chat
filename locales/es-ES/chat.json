@@ -40,7 +40,6 @@
     "regenerate": "Regenerar"
   },
   "newAgent": "Nuevo asistente",
-  "noDescription": "Sin descripción",
   "pin": "Fijar",
   "pinOff": "Desfijar",
   "regenerate": "Regenerar",
@@ -84,6 +83,7 @@
     "chats": "Mensajes de chat",
     "rest": "Restante",
     "systemRole": "Rol del sistema",
+    "title": "Detalles del token",
     "tools": "Herramientas",
     "total": "Total",
     "used": "Utilizado"

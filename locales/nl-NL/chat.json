@@ -40,7 +40,6 @@
     "regenerate": "Opnieuw genereren"
   },
   "newAgent": "Nieuwe assistent",
-  "noDescription": "Geen beschrijving beschikbaar",
   "pin": "Vastzetten",
   "pinOff": "Vastzetten uitschakelen",
   "regenerate": "Opnieuw genereren",
@@ -84,6 +83,7 @@
     "chats": "Chats",
     "rest": "Rust",
     "systemRole": "Systeemrol",
+    "title": "Contextuele details",
     "tools": "Tools",
     "total": "Totaal",
     "used": "Gebruikt"

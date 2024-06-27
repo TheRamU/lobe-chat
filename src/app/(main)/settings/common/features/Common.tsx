@@ -110,7 +110,7 @@ const Common = memo(() => {
         desc: t('settingSystem.accessCode.desc'),
         hidden: !showAccessCodeConfig,
         label: t('settingSystem.accessCode.title'),
-        name: 'password',
+        name: ['keyVaults', 'password'],
       },
       {
         children: isSignedIn ? (
@@ -135,8 +135,8 @@ const Common = memo(() => {
             {t('danger.reset.action')}
           </Button>
         ),
-        desc: t('danger.reset.title'),
-        label: t('danger.reset.desc'),
+        desc: t('danger.reset.desc'),
+        label: t('danger.reset.title'),
         minWidth: undefined,
       },
       {

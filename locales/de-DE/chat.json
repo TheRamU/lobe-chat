@@ -40,7 +40,6 @@
     "regenerate": "Neu generieren"
   },
   "newAgent": "Neuer Assistent",
-  "noDescription": "Keine Beschreibung vorhanden",
   "pin": "Anheften",
   "pinOff": "Anheften aufheben",
   "regenerate": "Neu generieren",
@@ -84,6 +83,7 @@
     "chats": "Chats",
     "rest": "Verbleibend",
     "systemRole": "Systemrolle",
+    "title": "Kontextdetails",
     "tools": "Werkzeuge",
     "total": "Insgesamt",
     "used": "Verwendet"

@@ -40,7 +40,6 @@
     "regenerate": "Wygeneruj ponownie"
   },
   "newAgent": "Nowy asystent",
-  "noDescription": "Brak opisu",
   "pin": "Przypnij",
   "pinOff": "Odepnij",
   "regenerate": "Wygeneruj ponownie",
@@ -84,6 +83,7 @@
     "chats": "Rozmowy",
     "rest": "Pozostałe",
     "systemRole": "Rola systemowa",
+    "title": "Szczegóły tokena",
     "tools": "Narzędzia",
     "total": "Razem",
     "used": "Wykorzystane"
