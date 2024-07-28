@@ -32,6 +32,7 @@ const useStyles = createStyles(({ css, token, prefixCls }) => {
     `,
     wrap: css`
       overflow: hidden auto;
+      backdrop-filter: blur(2px);
     `,
   };
 });
