@@ -156,10 +156,10 @@
   ],
   "short_name": "LobeChat",
   "splash_pages": null,
-  "start_url": ".",
+  "start_url": "./chat?showMobileWorkspace=true",
   "tab_strip": {
     "new_tab_button": {
-      "url": "/chat?showMobileWorkspace=true"
+      "url": "/"
     }
   },
   "theme_color": "#000000"
