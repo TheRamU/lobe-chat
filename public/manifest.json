@@ -159,7 +159,7 @@
   "start_url": ".",
   "tab_strip": {
     "new_tab_button": {
-      "url": "/"
+      "url": "/chat?showMobileWorkspace=true"
     }
   },
   "theme_color": "#000000"
