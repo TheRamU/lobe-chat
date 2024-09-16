@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: lobehub/lobe-chat-database
+          images: theramu/lobe-chat-database
           tags: |
             type=raw,value=latest
             type=ref,event=tag
