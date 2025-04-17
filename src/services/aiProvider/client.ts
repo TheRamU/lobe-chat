@@ -1,6 +1,6 @@
 import { clientDB } from '@/database/client/db';
+import { AiProviderModel } from '@/database/models/aiProvider';
 import { AiInfraRepos } from '@/database/repositories/aiInfra';
-import { AiProviderModel } from '@/database/server/models/aiProvider';
 import { BaseClientService } from '@/services/baseClientService';
 
 import { IAiProviderService } from './type';
@@ -25,7 +25,7 @@ export class ClientService extends BaseClientService implements IAiProviderServi
   };
 
   getAiProviderById: IAiProviderService['getAiProviderById'] = async (id) => {
-    return this.aiProviderModel.getAiProviderById(id);
+    return this.aiInfraRepos.getAiProviderDetail(id);
   };
 
   getAiProviderList: IAiProviderService['getAiProviderList'] = async () => {
@@ -33,13 +33,7 @@ export class ClientService extends BaseClientService implements IAiProviderServi
   };
 
   getAiProviderRuntimeState: IAiProviderService['getAiProviderRuntimeState'] = async () => {
-    const runtimeConfig = await this.aiProviderModel.getAiProviderRuntimeConfig();
-
-    const enabledAiProviders = await this.aiInfraRepos.getUserEnabledProviderList();
-
-    const enabledAiModels = await this.aiInfraRepos.getEnabledModels();
-
-    return { enabledAiModels, enabledAiProviders, runtimeConfig };
+    return await this.aiInfraRepos.getAiProviderRuntimeState();
   };
 
   toggleProviderEnabled: IAiProviderService['toggleProviderEnabled'] = async (id, enabled) => {

@@ -1,8 +1,8 @@
-import { z } from 'zod';
-
 import { FileItem } from '@/types/files';
 import { KnowledgeBaseItem } from '@/types/knowledgeBase';
 import { FewShots, LLMParams } from '@/types/llm';
+
+import { LobeAgentChatConfig } from './chatConfig';
 
 export type TTSServer = 'openai' | 'edge' | 'microsoft';
 
@@ -31,6 +31,16 @@ export interface LobeAgentConfig {
    * @default gpt-4o-mini
    */
   model: string;
+
+  /**
+   * 开场白
+   */
+  openingMessage?: string;
+  /**
+   * 开场问题
+   */
+  openingQuestions?: string[];
+
   /**
    * 语言模型参数
    */
@@ -39,10 +49,12 @@ export interface LobeAgentConfig {
    * 启用的插件
    */
   plugins?: string[];
+
   /**
    *  模型供应商
    */
   provider?: string;
+
   /**
    * 系统角色
    */
@@ -54,37 +66,8 @@ export interface LobeAgentConfig {
   tts: LobeAgentTTSConfig;
 }
 
-export interface LobeAgentChatConfig {
-  autoCreateTopicThreshold: number;
-  displayMode?: 'chat' | 'docs';
-  enableAutoCreateTopic?: boolean;
-  /**
-   * 历史消息长度压缩阈值
-   */
-  enableCompressHistory?: boolean;
-  /**
-   * 开启历史记录条数
-   */
-  enableHistoryCount?: boolean;
-  enableMaxTokens?: boolean;
-
-  /**
-   * 历史消息条数
-   */
-  historyCount?: number;
-  inputTemplate?: string;
-}
-
-export const AgentChatConfigSchema = z.object({
-  autoCreateTopicThreshold: z.number().default(2),
-  displayMode: z.enum(['chat', 'docs']).optional(),
-  enableAutoCreateTopic: z.boolean().optional(),
-  enableCompressHistory: z.boolean().optional(),
-  enableHistoryCount: z.boolean().optional(),
-  enableMaxTokens: z.boolean().optional(),
-  historyCount: z.number().optional(),
-});
-
 export type LobeAgentConfigKeys =
   | keyof LobeAgentConfig
   | ['params', keyof LobeAgentConfig['params']];
+
+export * from './chatConfig';

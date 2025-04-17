@@ -1,9 +1,9 @@
 export interface ChatAIChatState {
-  abortController?: AbortController;
   /**
    * is the AI message is generating
    */
   chatLoadingIds: string[];
+  chatLoadingIdsAbortController?: AbortController;
   inputFiles: File[];
   inputMessage: string;
   /**
@@ -15,6 +15,7 @@ export interface ChatAIChatState {
    * is the AI message is reasoning
    */
   reasoningLoadingIds: string[];
+  searchWorkflowLoadingIds: string[];
   /**
    * the tool calling stream ids
    */
@@ -28,5 +29,6 @@ export const initialAiChatState: ChatAIChatState = {
   messageRAGLoadingIds: [],
   pluginApiLoadingIds: [],
   reasoningLoadingIds: [],
+  searchWorkflowLoadingIds: [],
   toolCallingStreamIds: {},
 };
